@@ -48,6 +48,9 @@ export class App extends ReactiveComponent {
 			<PokeSegment />
 			<Divider hidden />
 			<TransactionsSegment />
+			<Divider hidden />
+			<DemoSegment />  
+
 		</div>);
 	}
 }
@@ -301,6 +304,50 @@ class UpgradeSegment extends React.Component {
 		} />
 	}
 }
+
+class DemoSegment extends React.Component {
+  constructor() {
+    super()
+    this.player = new Bond
+  }
+
+  render() {
+    return <Segment style={{ margin: '1em' }} padded>
+      <Header as='h2'>
+        <Icon name='game' />
+        <Header.Content>
+          Play the game
+          <Header.Subheader>Play the game here!</Header.Subheader>
+        </Header.Content>
+      </Header>
+      <div style={{ paddingBottom: '1em' }}>
+        <div style={{ fontSize: 'small' }}>player</div>
+        <SignerBond bond={this.player} />
+        <If condition={this.player.ready()} then={<span>
+          <Label>Balance
+            <Label.Detail>
+              <Pretty value={runtime.balances.balance(this.player)} />
+            </Label.Detail>
+          </Label>
+        </span>} />
+      </div>
+      <TransactButton
+        content="Play"
+        icon='game'
+        tx={{
+          sender: this.player,
+          call: calls.demo.play()
+        }}
+      />
+      <Label>Pot Balance
+        <Label.Detail>
+          <Pretty value={runtime.demo.pot} />
+        </Label.Detail>
+      </Label>
+    </Segment>
+  }
+}
+
 
 class PokeSegment extends React.Component {
 	constructor () {
